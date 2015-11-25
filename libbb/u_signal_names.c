@@ -213,7 +213,7 @@ const char* FAST_FUNC get_signame(int number)
 			return signals[number];
 	}
 
-	return itoa(number);
+	return itoa_bb(number);
 }
 
 

@@ -116,7 +116,7 @@ char* FAST_FUNC itoa_to_buf(int n, char *buf, unsigned buflen)
 static char local_buf[sizeof(int) * 3];
 
 /* Convert unsigned integer to ascii using a static buffer (returned). */
-char* FAST_FUNC utoa(unsigned n)
+char* FAST_FUNC utoa_bb(unsigned n)
 {
 	*(utoa_to_buf(n, local_buf, sizeof(local_buf) - 1)) = '\0';
 
@@ -124,12 +124,13 @@ char* FAST_FUNC utoa(unsigned n)
 }
 
 /* Convert signed integer to ascii using a static buffer (returned). */
-char* FAST_FUNC itoa(int n)
+char* FAST_FUNC itoa_bb(int n)
 {
 	*(itoa_to_buf(n, local_buf, sizeof(local_buf) - 1)) = '\0';
 
 	return local_buf;
 }
+
 
 /* Emit a string of hex representation of bytes */
 char* FAST_FUNC bin2hex(char *p, const char *cp, int count)
@@ -270,6 +271,7 @@ int FAST_FUNC get_terminal_width_height(int fd, unsigned *width, unsigned *heigh
 		*width = wh_helper(win.ws_col, 80, "COLUMNS", &err);
 	return err;
 }
+
 int FAST_FUNC get_terminal_width(int fd)
 {
 	unsigned width;

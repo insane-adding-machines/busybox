@@ -862,8 +862,9 @@ char *safe_gethostname(void) FAST_FUNC;
 /* Convert each alpha char in str to lower-case */
 char* str_tolower(char *str) FAST_FUNC;
 
-char *utoa(unsigned n) FAST_FUNC;
-char *itoa(int n) FAST_FUNC;
+// XXX defined in stdlib.h for arm-none-eabi
+char *utoa_bb(unsigned n) FAST_FUNC;
+char *itoa_bb(int n) FAST_FUNC;
 /* Returns a pointer past the formatted number, does NOT null-terminate */
 char *utoa_to_buf(unsigned n, char *buf, unsigned buflen) FAST_FUNC;
 char *itoa_to_buf(int n, char *buf, unsigned buflen) FAST_FUNC;
