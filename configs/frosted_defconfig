@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Busybox version: 1.25.0.git
-# Wed Nov 25 22:15:16 2015
+# Thu Nov 26 18:00:33 2015
 #
 CONFIG_HAVE_DOT_CONFIG=y
 
@@ -16,7 +16,7 @@ CONFIG_HAVE_DOT_CONFIG=y
 # CONFIG_EXTRA_COMPAT is not set
 # CONFIG_INCLUDE_SUSv2 is not set
 # CONFIG_USE_PORTABLE_CODE is not set
-CONFIG_PLATFORM_LINUX=y
+# CONFIG_PLATFORM_LINUX is not set
 CONFIG_FEATURE_BUFFERS_USE_MALLOC=y
 # CONFIG_FEATURE_BUFFERS_GO_ON_STACK is not set
 # CONFIG_FEATURE_BUFFERS_GO_IN_BSS is not set
@@ -66,9 +66,9 @@ CONFIG_NOMMU=y
 # CONFIG_LFS is not set
 CONFIG_CROSS_COMPILER_PREFIX="arm-none-eabi-"
 CONFIG_SYSROOT=""
-CONFIG_EXTRA_CFLAGS="-mcpu=cortex-m3 -mthumb -fno-common -I../../include -I../../include/libc -D__frosted__"
-CONFIG_EXTRA_LDFLAGS="-L../../build/lib -T../apps.ld -Wl,-Map,busybox.map --specs=nano.specs"
-CONFIG_EXTRA_LDLIBS="frosted c nosys"
+CONFIG_EXTRA_CFLAGS="-mcpu=cortex-m3 -mthumb -fno-common -I../../include -I../../include/libc -D__frosted__ -ggdb"
+CONFIG_EXTRA_LDFLAGS="-L../../build/lib -T../apps.ld -Wl,-Map,busybox.map --specs=nano.specs -ggdb"
+CONFIG_EXTRA_LDLIBS="frosted c"
 
 #
 # Debugging Options
