@@ -87,6 +87,11 @@
 # include <malloc.h>   /* for malloc_trim */
 #endif
 #include <glob.h>
+
+#ifndef GLOB_NOMATCH
+#define GLOB_NOMATCH (-3) /* from "Error values returned by glob(3)" */
+#endif
+
 /* #include <dmalloc.h> */
 #if ENABLE_HUSH_CASE
 # include <fnmatch.h>
@@ -1732,11 +1737,11 @@ static const char* FAST_FUNC get_local_var_value(const char *name)
 		return (*vpp)->varstr + len + 1;
 
 	if (strcmp(name, "PPID") == 0)
-		return utoa(G.root_ppid);
+		return utoa_bb(G.root_ppid);
 	// bash compat: UID? EUID?
 #if ENABLE_HUSH_RANDOM_SUPPORT
 	if (strcmp(name, "RANDOM") == 0)
-		return utoa(next_random(&G.random_gen));
+		return utoa_bb(next_random(&G.random_gen));
 #endif
 	return NULL;
 }
@@ -5047,16 +5052,16 @@ static NOINLINE const char *expand_one_var(char **to_be_freed_pp, char *arg, cha
 	} else {
 		switch (var[0]) {
 		case '$': /* pid */
-			val = utoa(G.root_pid);
+			val = utoa_bb(G.root_pid);
 			break;
 		case '!': /* bg pid */
-			val = G.last_bg_pid ? utoa(G.last_bg_pid) : "";
+			val = G.last_bg_pid ? utoa_bb(G.last_bg_pid) : "";
 			break;
 		case '?': /* exitcode */
-			val = utoa(G.last_exitcode);
+			val = utoa_bb(G.last_exitcode);
 			break;
 		case '#': /* argc */
-			val = utoa(G.global_argc ? G.global_argc-1 : 0);
+			val = utoa_bb(G.global_argc ? G.global_argc-1 : 0);
 			break;
 		default:
 			val = get_local_var_value(var);
@@ -5067,7 +5072,7 @@ static NOINLINE const char *expand_one_var(char **to_be_freed_pp, char *arg, cha
 	if (exp_op == 'L') {
 		reinit_unicode_for_hush();
 		debug_printf_expand("expand: length(%s)=", val);
-		val = utoa(val ? unicode_strlen(val) : 0);
+		val = utoa_bb(val ? unicode_strlen(val) : 0);
 		debug_printf_expand("%s\n", val);
 	} else if (exp_op) {
 		if (exp_op == '%' || exp_op == '#') {
@@ -5091,7 +5096,7 @@ static NOINLINE const char *expand_one_var(char **to_be_freed_pp, char *arg, cha
 				if (exp_exp_word)
 					exp_word = exp_exp_word;
 				/* HACK ALERT. We depend here on the fact that
-				 * G.global_argv and results of utoa and get_local_var_value
+				 * G.global_argv and results of utoa_bb and get_local_var_value
 				 * are actually in writable memory:
 				 * scan_and_match momentarily stores NULs there. */
 				t = (char*)val;
@@ -5140,7 +5145,7 @@ static NOINLINE const char *expand_one_var(char **to_be_freed_pp, char *arg, cha
 				repl = encode_then_expand_string(exp_word, /*process_bkslash:*/ arg0 & 0x80, /*unbackslash:*/ 1);
 				debug_printf_varexp("repl:'%s'->'%s'\n", exp_word, repl);
 				/* HACK ALERT. We depend here on the fact that
-				 * G.global_argv and results of utoa and get_local_var_value
+				 * G.global_argv and results of utoa_bb and get_local_var_value
 				 * are actually in writable memory:
 				 * replace_pattern momentarily stores NULs there. */
 				t = (char*)val;
