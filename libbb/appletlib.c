@@ -840,7 +840,7 @@ int main(int argc UNUSED_PARAM, char **argv)
 	applet_name = argv[0];
 	if (applet_name[0] == '-')
 		applet_name++;
-	applet_name = "true"; //bb_basename(applet_name);
+	applet_name = bb_basename(applet_name);
 
 	parse_config_file(); /* ...maybe, if FEATURE_SUID_CONFIG */
 
