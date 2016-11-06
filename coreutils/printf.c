@@ -70,7 +70,7 @@ typedef void FAST_FUNC (*converter)(const char *arg, void *result);
 static int multiconvert(const char *arg, void *result, converter convert)
 {
 	if (*arg == '"' || *arg == '\'') {
-		arg = utoa((unsigned char)arg[1]);
+		arg = utoa_bb((unsigned char)arg[1]);
 	}
 	errno = 0;
 	convert(arg, result);

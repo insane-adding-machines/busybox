@@ -27,7 +27,7 @@ void FAST_FUNC header_verbose_list(const file_header_t *file_header)
 	group = file_header->tar__gname;
 	if (group == NULL) {
 		/*sprintf(gid, "%u", (unsigned)file_header->gid);*/
-		group = utoa(file_header->gid);
+		group = utoa_bb(file_header->gid);
 	}
 	printf("%s %s/%s %9"OFF_FMT"u %4u-%02u-%02u %02u:%02u:%02u %s",
 		bb_mode_string(file_header->mode),
