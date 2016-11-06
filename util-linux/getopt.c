@@ -226,7 +226,7 @@ static int generate_output(char **argv, int argc, const char *optstr, const stru
 
 	/* We used it already in main() in getopt32(),
 	 * we *must* reset getopt(3): */
-#ifdef __GLIBC__
+#if defined __GLIBC__ || defined _NEWLIB_VERSION
 	optind = 0;
 #else /* BSD style */
 	optind = 1;

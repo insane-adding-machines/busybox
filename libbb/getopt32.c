@@ -540,7 +540,7 @@ getopt32(char **argv, const char *applet_opts, ...)
 	 * run_nofork_applet() does this, but we might end up here
 	 * also via gunzip_main() -> gzip_main(). Play safe.
 	 */
-#ifdef __GLIBC__
+#if defined __GLIBC__ || defined _NEWLIB_VERSION
 	optind = 0;
 #else /* BSD style */
 	optind = 1;
