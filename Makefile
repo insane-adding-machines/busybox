@@ -712,19 +712,9 @@ debug_kallsyms: .tmp_map$(last_kallsyms)
 endif # ifdef CONFIG_KALLSYMS
 
 # busybox image - including updated kernel symbols
-busybox_unstripped: $(busybox-all) FORCE
+busybox: $(busybox-all) FORCE
 	$(call if_changed_rule,busybox__)
 	$(Q)rm -f .old_version
-
-busybox: busybox_unstripped
-ifeq ($(SKIP_STRIP),y)
-	$(Q)cp $< $@
-else
-	$(Q)$(STRIP) -s --remove-section=.note --remove-section=.comment \
-		busybox_unstripped -o $@
-# strip is confused by PIE executable and does not set exec bits
-	$(Q)chmod a+x $@
-endif
 
 # The actual objects are generated when descending,
 # make sure no implicit rule kicks in
@@ -957,7 +947,7 @@ endif # CONFIG_MODULES
 
 # Directories & files removed with 'make clean'
 CLEAN_DIRS  += $(MODVERDIR) _install 0_lib
-CLEAN_FILES +=	busybox busybox_unstripped* busybox.links \
+CLEAN_FILES +=	busybox busybox.links \
                 System.map .kernelrelease \
                 .tmp_kallsyms* .tmp_version .tmp_busybox* .tmp_System.map
 
